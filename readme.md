@@ -10,3 +10,11 @@
 ## Executar
 
 - `python3 main.py`
+
+TODO:
+- [ ] criar geradores (MMC, exponencial)
+- [ ] criar config (arquivo JSON ou algo do tipo)
+- [ ] arrumar Readme
+- [ ] printar estatisticas (tempo medio de fila, etc)
+
+
