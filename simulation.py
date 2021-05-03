@@ -15,6 +15,10 @@ class Simulation:
         self.dropped_clients_summary = []
         self.server = Server()
 
+        self.total_idle_time = 0
+        self.total_queue_time = 0
+        self.total_service_time = 0
+
     def simulate(self):
         for i in range(self.nclients):
             rel_arrival_time = self.arrival_time_gen.gen()
@@ -30,6 +34,11 @@ class Simulation:
         queue_time = self.get_queue_time(arrival_time)
         start_service_time = arrival_time + queue_time
         finish_service_time = start_service_time + service_time
+
+        self.total_idle_time += start_service_time - self.get_last_finish_service_time()
+        self.total_queue_time += queue_time
+        self.total_service_time += service_time
+
         client_summary = {
             "id": id,
             "rel_arrival_time": rel_arrival_time,
@@ -38,7 +47,8 @@ class Simulation:
             "start_service_time": start_service_time,
             "finish_service_time": finish_service_time,
             "queue_time": queue_time,
-            "system_time": finish_service_time - arrival_time
+            "system_time": finish_service_time - arrival_time,
+            "idle_time": start_service_time - self.get_last_finish_service_time()
         }
         self.clients_summary.append(client_summary)
         self.server.work(start_service_time, service_time)
@@ -52,6 +62,11 @@ class Simulation:
     def get_last_arrival_time(self):
         if len(self.clients_summary) > 0:
             return self.clients_summary[-1]['arrival_time']
+        return 0
+
+    def get_last_finish_service_time(self):
+        if len(self.clients_summary) > 0:
+            return self.clients_summary[-1]['finish_service_time']
         return 0
 
     def get_queue_time(self, arrival_time):
@@ -73,3 +88,14 @@ class Simulation:
         header = dataset[0].keys()
         rows = [x.values() for x in dataset]
         print(tabulate.tabulate(rows, header))
+
+        total_time = dataset[self.nclients-1]['finish_service_time']
+
+        # b) OBS -> ONLY ONE SERVANT
+        print("Avg rate of servant occupation: {:.2f}".format(1 - self.total_idle_time/total_time))
+        # c)
+        print("Avg queue time: {:.2f}".format(self.total_queue_time / self.nclients))
+        # d)
+        print("Avg system time: {:.2f}".format((self.total_service_time+self.total_queue_time) / self.nclients))
+
+        # print("Avg service time: {:.2f}".format(self.total_service_time / self.nclients))
