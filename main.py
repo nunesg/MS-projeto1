@@ -1,16 +1,19 @@
 from simulation import Simulation
-import configparser
 import generators
+import json
 
-from numpy import random as npr
 
+def get_generator(config):
+    if config['tec_type'] == 'uniform':
+        return generators.DummyGenerator(config['tec']['min_value'], config['tec']['max_value'])
+    raise Exception("invalid tec_type")
 
 
 def main():
-    config = configparser.ConfigParser()
-    config.read('config.env')
+    with open("config.json", "r") as read_file:
+        config = json.load(read_file)
 
-    generator = generators.DummyGenerator(5, 10)
+    generator = get_generator(config)
     simulation = Simulation(generator, generator)
     simulation.simulate()
 
