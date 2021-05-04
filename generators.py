@@ -30,8 +30,8 @@ class MonteCarlo:
         ]
         self.normalize_frequencies(classes_array)
         self.build_accumulated_probs(classes_array)
-        print(f"values: {self.values}")
-        print(f"acc_probs: {self.acc_probs}")
+        # print(f"values: {self.values}")
+        # print(f"acc_probs: {self.acc_probs}")
 
     def gen(self):
         idx = bisect.bisect_left(self.acc_probs, random.random())

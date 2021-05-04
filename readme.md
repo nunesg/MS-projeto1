@@ -45,4 +45,3 @@
 
 TODO:
 - [ ] arrumar Readme
-- [ ] printar estatisticas (num medio de entidades na fila, clientes dropados)
