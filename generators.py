@@ -13,6 +13,15 @@ class Uniform:
         return self.min_value + int(random.random() * (self.max_value - self.min_value))
 
 
+class Deterministic:
+    def __init__(self, array):
+        self.array = array
+
+    def gen(self):
+        idx = int(random.random() * len(self.array))
+        return self.array[idx]
+
+
 class Exponential:
     def __init__(self, lamb):
         self.lamb = lamb

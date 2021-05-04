@@ -6,11 +6,13 @@ import json
 def get_generator(gen_type, data):
     if gen_type == 'uniform':
         return generators.Uniform(data['min_value'], data['max_value'])
-    if gen_type == 'mmc':
-        return generators.MonteCarlo(data)
+    if gen_type == 'deterministic':
+        return generators.Deterministic(data)
     if gen_type == 'exp':
         return generators.Exponential(data["lambda"])
-    raise Exception("invalid tec_type")
+    if gen_type == 'mmc':
+        return generators.MonteCarlo(data)
+    raise Exception("invalid type")
 
 
 def main():
