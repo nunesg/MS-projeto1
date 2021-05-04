@@ -89,13 +89,21 @@ class Simulation:
         rows = [x.values() for x in dataset]
         print(tabulate.tabulate(rows, header))
 
-        total_time = dataset[self.nclients-1]['finish_service_time']
+        total_time = dataset[-1]['finish_service_time']
 
         # b) OBS -> ONLY ONE SERVANT
-        print("Avg rate of servant occupation: {:.2f}".format(1 - self.total_idle_time/total_time))
+        print("Avg rate of servant occupation: {:.2f}".format(
+            1 - self.total_idle_time/total_time))
         # c)
-        print("Avg queue time: {:.2f}".format(self.total_queue_time / self.nclients))
+        print("Avg queue time: {:.2f}".format(
+            self.total_queue_time / self.nclients))
         # d)
-        print("Avg system time: {:.2f}".format((self.total_service_time+self.total_queue_time) / self.nclients))
+        print("Avg system time: {:.2f}".format(
+            (self.total_service_time+self.total_queue_time) / self.nclients))
 
         # print("Avg service time: {:.2f}".format(self.total_service_time / self.nclients))
+        self.print_dropped()
+
+    def print_dropped(self):
+        # TODO
+        return

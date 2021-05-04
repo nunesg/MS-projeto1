@@ -6,6 +6,7 @@
 
 ## Dependencias
 - pacote **tabulate**: `pip3 install tabulate`
+- pacote **bisect**: `pip3 install bisect`
 
 ## Setup config
 
@@ -32,9 +33,9 @@
   }
 ]
 ```
-- exp: lambda i.e. float in [0, 1)
+- exp: lambda i.e. arrival rate
 
-`queue_max_size`: integer
+`max_queue_size`: integer
 
 `clients`: integer
 
@@ -43,9 +44,5 @@
 - `python3 main.py`
 
 TODO:
-- [ ] criar geradores (MMC, exponencial)
-- [ ] criar config (arquivo JSON ou algo do tipo)
 - [ ] arrumar Readme
-- [ ] printar estatisticas (tempo medio de fila, etc)
-
-
+- [ ] printar estatisticas (num medio de entidades na fila, clientes dropados)

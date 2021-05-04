@@ -3,9 +3,13 @@ import generators
 import json
 
 
-def get_generator(config):
-    if config['tec_type'] == 'uniform':
-        return generators.DummyGenerator(config['tec']['min_value'], config['tec']['max_value'])
+def get_generator(gen_type, data):
+    if gen_type == 'uniform':
+        return generators.Uniform(data['min_value'], data['max_value'])
+    if gen_type == 'mmc':
+        return generators.MonteCarlo(data)
+    if gen_type == 'exp':
+        return generators.Exponential(data["lambda"])
     raise Exception("invalid tec_type")
 
 
@@ -13,8 +17,14 @@ def main():
     with open("config.json", "r") as read_file:
         config = json.load(read_file)
 
-    generator = get_generator(config)
-    simulation = Simulation(generator, generator)
+    tec_generator = get_generator(config['tec_type'], config['tec'])
+    ts_generator = get_generator(config['ts_type'], config['ts'])
+    simulation = Simulation(
+        arrival_time_gen=tec_generator,
+        service_time_gen=ts_generator,
+        max_queue_size=config['max_queue_size'],
+        nclients=config['clients']
+    )
     simulation.simulate()
 
 

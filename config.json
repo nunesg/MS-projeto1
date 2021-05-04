@@ -1,14 +1,25 @@
 {
-  "tec_type": "uniform",
-  "tec": {
-    "min_value": 5,
-    "max_value": 10
-  },
-  "ts_type": "uniform",
+  "tec_type": "mmc",
+  "tec": [
+    {
+      "class": {
+        "min_value": 0,
+        "max_value": 5
+      },
+      "frequency": 1
+    },
+    {
+      "class": {
+        "min_value": 5,
+        "max_value": 10
+      },
+      "frequency": 1
+    }
+  ],
+  "ts_type": "exp",
   "ts": {
-    "min_value": 5,
-    "max_value": 10
+    "lambda": 0.1
   },
-  "queue_max_size": 4,
+  "max_queue_size": 4,
   "clients": 15
 }
