@@ -5,19 +5,76 @@
 - Gustavo Nunes
 
 ## Dependências
-- pacote **tabulate**: `pip3 install tabulate`
-- pacote **bisect**: `pip3 install bisect`
+- `python3` instalado na máquina
+- `pip3` instalado na máquina
+- pacote **tabulate**
+  - `pip3 install tabulate`
+- pacote **bisect**
+  - `pip3 install bisect`
 
 ## Setup arquivo de config
 
-Para cada executar a simulação, é necessário adicionar os parâmetros desejados no arquivo `config.json`.
-
-
-Os parâmetros que adicionam aleatoriedade à simulação são os parâmetros TEC (tempo entre chegadas) e TS (tempo de serviço). É possível controlar o tipo da variável desejada pelos atributos `tec_type` e `ts_type`, que podem receber um dos possíveis valores abaixo:
+Para cada executar a simulação, é necessário adicionar os parâmetros desejados no arquivo `config.json`. Os parâmetros possíveis são:
 
 <table>
 <tr>
-  <th>Tipo de TEC-TS</th>
+  <th>Nome</th>
+  <th style="width: 55%">Descrição</th>
+  <th style="width: 55%">Valores Possíveis</th>
+</tr>
+
+<tr>
+
+<td><code>tec_type</code></td>
+<td>Tipo de aleatoriedade usada para gerar o tempo entre as chegadas</td>
+<td>
+  <code>uniform</code>, <code>deterministic</code>, <code>exp</code>, <code>mmc</code>
+</td>
+</tr>
+
+<td><code>tec</code></td>
+<td>Parâmetro necessário para gerar o tempo entre as chegadas dependendo do <code>tec_type</code> desejado</td>
+<td>
+  (Ver explicação abaixo)
+</td>
+</tr>
+
+<td><code>ts_type</code></td>
+<td>Tipo de aleatoriedade usada para gerar o tempo de serviço</td>
+<td>
+  <code>uniform</code>, <code>deterministic</code>, <code>exp</code>, <code>mmc</code>
+</td>
+</tr>
+
+<td><code>ts</code></td>
+<td>Parâmetro necessário para gerar o tempo de serviço dependendo do <code>ts_type</code> desejado</td>
+<td>
+  (Ver explicação abaixo)
+</td>
+</tr>
+
+<td><code>clients</code></td>
+<td>Número de clientes na simulação</td>
+<td>
+  <code>int</code> > 0
+</td>
+</tr>
+
+<td><code>max_queue_size</code> (opcional)</td>
+<td>Tamanho máximo da fila</td>
+<td>
+  <code>int</code> >= 0
+</td>
+</tr>
+</table><br>
+
+### Parâmetros de aleatoriedade e seus atributos
+
+Os parâmetros que adicionam aleatoriedade à simulação são os parâmetros TEC (tempo entre chegadas) e TS (tempo de serviço). É possível controlar o tipo da variável aleatória desejada pelos atributos `tec_type` e `ts_type`, que podem receber um dos possíveis valores abaixo:
+
+<table>
+<tr>
+  <th>Tipo</th>
   <th style="width: 55%">Descrição</th>
 </tr>
 
@@ -47,7 +104,7 @@ Os campos `tec` e `ts` armazenam os parâmetros necessários dependendo do tipo 
 
 <table>
 <tr>
-  <th>Tipo de TEC-TS</th>
+  <th>Tipo</th>
   <th style="width: 55%">Descrição do atributo</th>
   <th>Exemplo</th>
 </tr>
@@ -58,6 +115,7 @@ Os campos `tec` e `ts` armazenam os parâmetros necessários dependendo do tipo 
 <td style="width: 55%">Intervalo de valores possíveis</td>
 <td><code>
 <pre>
+"ts_type": "uniform",
 "ts": {
   min_value: 1.5, 
   max_value: 5
@@ -69,6 +127,7 @@ Os campos `tec` e `ts` armazenam os parâmetros necessários dependendo do tipo 
 <td style="width: 55%">Array com os possíveis valores</td>
 <td><code>
 <pre>
+"ts_type": "deterministic",
 "ts": [3, 2, 5]
 </pre></code>
 </td></tr>
@@ -77,6 +136,7 @@ Os campos `tec` e `ts` armazenam os parâmetros necessários dependendo do tipo 
 <td style="width: 55%">Taxa de chegada (em unidades de tempo). Por exemplo: lambda = 0.5 significa que os clientes chegam em média a cada meia hora (se a unidade de tempo for em horas), portanto chegam 1/0.5 = 2 clientes por hora. </td>
 <td><code>
 <pre>
+"ts_type": "exp",
 "ts": {
   "lambda": 0.5 
 }
@@ -91,7 +151,8 @@ As frequências também podem assumir valores de probabilidade. por exemplo, ao 
 </td>
 <td><code>
 <pre>
-"ts": [
+"tec_type": "mmc",
+"tec": [
   {
     "class": {
       min_value: 0, 
@@ -110,15 +171,8 @@ As frequências também podem assumir valores de probabilidade. por exemplo, ao 
 </pre></code>
 </td></tr>
 
-
-
 </table>
 
-
-`max_queue_size`: integer
-
-`clients`: integer
-
-## Executar
+## Execução
 
 - `python3 main.py`
