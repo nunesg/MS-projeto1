@@ -15,7 +15,6 @@ class Simulation:
         self.dropped_clients_summary = []
         self.server = Server()
 
-        self.total_idle_time = 0
         self.total_queue_time = 0
         self.total_service_time = 0
         self.total_time = 0
@@ -39,7 +38,6 @@ class Simulation:
         start_service_time = arrival_time + queue_time
         finish_service_time = start_service_time + service_time
 
-        self.total_idle_time += start_service_time - self.get_last_finish_service_time()
         self.total_queue_time += queue_time
         self.total_service_time += service_time
         self.total_time = finish_service_time
@@ -53,7 +51,7 @@ class Simulation:
             "finish_service_time": finish_service_time,
             "queue_time": queue_time,
             "system_time": finish_service_time - arrival_time,
-            "idle_time": start_service_time - self.get_last_finish_service_time()
+            "idle_time": start_service_time - self.server.get_free_time()
         }
         self.clients_summary.append(client_summary)
         self.server.work(start_service_time, service_time)
@@ -69,15 +67,10 @@ class Simulation:
             return self.clients_summary[-1]['arrival_time']
         return 0
 
-    def get_last_finish_service_time(self):
-        if len(self.clients_summary) > 0:
-            return self.clients_summary[-1]['finish_service_time']
-        return 0
-
     def get_queue_time(self, arrival_time):
         if len(self.clients_summary) == 0:
             return 0
-        return max(0, self.clients_summary[-1]['finish_service_time'] - arrival_time)
+        return max(0, self.server.get_free_time() - arrival_time)
 
     def get_queue_size(self, arrival_time):
         qsize = 0
@@ -105,7 +98,7 @@ class Simulation:
 
         # b) OBS -> ONLY ONE SERVANT
         print("Avg rate of servant occupation: {:.2f}".format(
-            1 - self.total_idle_time/self.total_time))
+            1 - self.server.get_total_idle_time()/self.total_time))
         # c)
         print("Avg client queue time: {:.2f}".format(
             self.total_queue_time / served_clients))

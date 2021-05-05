@@ -6,6 +6,9 @@ class Server:
     def get_free_time(self):
         return self.next_free_time
 
+    def get_total_idle_time(self):
+        return self.wasted_time
+
     def work(self, start, time):
         if start < self.next_free_time:
             raise Exception("Can't start while server is still working!")
