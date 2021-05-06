@@ -191,7 +191,7 @@ As frequências também podem assumir valores de probabilidade. por exemplo, ao 
 ### Ambiente Linux
 
 - No terminal, executar: `python3 main.py`
-![Alt text](linux_screenshot.png?raw=true "Exemplo de execução no ambiente Google Colab")
+![Alt text](images/linux_screenshot.png?raw=true "Exemplo de execução no ambiente Google Colab")
 
 ### Google Colab
 
@@ -199,4 +199,4 @@ As frequências também podem assumir valores de probabilidade. por exemplo, ao 
 2) Copiar os arquivos do projeto para a pasta `arquivos` na `aba à esquerda`
 3) Executar o comando `!python3 main.py` em alguma célula de execução
 
-![Alt text](colab_screenshot.png?raw=true "Exemplo de execução no ambiente Google Colab")
+![Alt text](images/colab_screenshot.png?raw=true "Exemplo de execução no ambiente Google Colab")
