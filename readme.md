@@ -27,7 +27,7 @@ Os tempos com os quais os clientes chegam no sistema e o tempo que o servidor le
 
 ## Setup arquivo de config
 
-Para cada executar a simulação, é necessário adicionar os parâmetros desejados no arquivo `config.json`. Os parâmetros possíveis são:
+Para executar a simulação, é necessário adicionar os parâmetros desejados no arquivo `config.json`. Os parâmetros possíveis são:
 
 <table>
 <tr>
@@ -73,7 +73,7 @@ Para cada executar a simulação, é necessário adicionar os parâmetros deseja
 </td>
 </tr>
 
-<td><code>max_queue_size</code> (opcional)</td>
+<td><code>max_queue_size</code> (opcional, default = inf)</td>
 <td>Tamanho máximo da fila</td>
 <td>
   <code>int</code> >= 0
@@ -130,8 +130,8 @@ Os campos `tec` e `ts` armazenam os parâmetros necessários dependendo do tipo 
 <pre>
 "ts_type": "uniform",
 "ts": {
-  min_value: 1.5, 
-  max_value: 5
+  "min_value": 1.5, 
+  "max_value": 5
 }
 </pre></code>
 </td></tr>
@@ -168,15 +168,15 @@ As frequências também podem assumir valores de probabilidade. por exemplo, ao 
 "tec": [
   {
     "class": {
-      min_value: 0, 
-      max_value: 5
+      "min_value": 0, 
+      "max_value": 5
     },
     "frequency": 3
   },
   {
     "class": {
-      min_value: 5, 
-      max_value: 10
+      "min_value": 5, 
+      "max_value": 10
     },
     "frequency": 1
   }
@@ -188,4 +188,6 @@ As frequências também podem assumir valores de probabilidade. por exemplo, ao 
 
 ## Execução
 
-- `python3 main.py`
+### Ambiente Linux
+
+- No terminal, executar: `python3 main.py`
