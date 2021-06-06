@@ -6,14 +6,19 @@ import tabulate
 
 class Simulation:
     def __init__(self, arrival_time_gen, service_time_gen,
-                 max_queue_size=float('inf'), nclients=15):
+                 max_queue_size=float('inf'), nclients=15, nservers=2):
         self.arrival_time_gen = arrival_time_gen
         self.service_time_gen = service_time_gen
         self.max_queue_size = max_queue_size
         self.nclients = nclients
         self.clients_summary = []
         self.dropped_clients_summary = []
-        self.server = Server()
+        self.servers = [
+            {
+                'server': Server(),
+                'id': i
+            } for i in range(nservers)
+        ]
 
         self.total_queue_time = 0
         self.total_service_time = 0
@@ -24,17 +29,22 @@ class Simulation:
             rel_arrival_time = self.arrival_time_gen.gen()
             service_time = self.service_time_gen.gen()
             self.client_arrived(i, rel_arrival_time, service_time)
+        for server in self.servers:
+            server['server'].finish(self.total_time)
         self.print_statistics()
 
     def client_arrived(self, id, rel_arrival_time, service_time):
         arrival_time = self.get_last_arrival_time() + rel_arrival_time
+        server_obj = self.get_next_free_server()
+        server = server_obj.get('server')
+        server_id = server_obj.get('id')
         if (
             self.get_queue_size(arrival_time) == self.max_queue_size
-            and self.server.get_free_time() > arrival_time
+            and server.get_free_time() > arrival_time
         ):
             self.drop_client(id, arrival_time)
             return
-        queue_time = self.get_queue_time(arrival_time)
+        queue_time = self.get_queue_time(arrival_time, server)
         start_service_time = arrival_time + queue_time
         finish_service_time = start_service_time + service_time
 
@@ -51,26 +61,35 @@ class Simulation:
             "finish_service_time": finish_service_time,
             "queue_time": queue_time,
             "system_time": finish_service_time - arrival_time,
-            "idle_time": start_service_time - self.server.get_free_time()
+            "server_id": server_id+1,
+            "idle_time": start_service_time - server.get_free_time()
         }
         self.clients_summary.append(client_summary)
-        self.server.work(start_service_time, service_time)
+        server.work(start_service_time, service_time)
 
     def drop_client(self, id, arrival_time):
         self.dropped_clients_summary.append({
             "id": id,
             "arrival_time": arrival_time
         })
+    
+    def get_next_free_server(self):
+        best = 0
+        nservers = len(self.servers)
+        for i in range(nservers):
+            if self.servers[i]['server'].get_free_time() < self.servers[best]['server'].get_free_time():
+                best = i;
+        return self.servers[best];
 
     def get_last_arrival_time(self):
         if len(self.clients_summary) > 0:
             return self.clients_summary[-1]['arrival_time']
         return 0
 
-    def get_queue_time(self, arrival_time):
+    def get_queue_time(self, arrival_time, server):
         if len(self.clients_summary) == 0:
             return 0
-        return max(0, self.server.get_free_time() - arrival_time)
+        return max(0, server.get_free_time() - arrival_time)
 
     def get_queue_size(self, arrival_time):
         qsize = 0
@@ -96,9 +115,10 @@ class Simulation:
             self.get_average_queue_size()
         ))
 
-        # b) OBS -> ONLY ONE SERVANT
-        print("Avg rate of servant occupation: {:.2f}".format(
-            1 - self.server.get_total_idle_time()/self.total_time))
+        # b)
+        avg_total_idle_time = sum(server['server'].get_total_idle_time() for server in self.servers)/len(self.servers)
+        print("Avg rate of servants occupation: {:.2f}".format(
+            1 - avg_total_idle_time/self.total_time))
         # c)
         print("Avg client queue time: {:.2f}".format(
             self.total_queue_time / served_clients))

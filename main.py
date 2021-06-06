@@ -25,7 +25,8 @@ def main():
         arrival_time_gen=tec_generator,
         service_time_gen=ts_generator,
         max_queue_size=config.get('max_queue_size', float('inf')),
-        nclients=config['clients']
+        nclients=config['clients'],
+        nservers=config['servers']
     )
     simulation.simulate()
 

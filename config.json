@@ -23,5 +23,6 @@
     9
   ],
   "clients": 15,
+  "servers": 2,
   "max_queue_size": 4
 }
