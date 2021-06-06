@@ -1,21 +1,20 @@
-# Simulação de Filas M/M/1 - MS
+# Simulação de Filas M/M/s - MS
 
 ## Alunos
-- Gustavo Candido
 - Gustavo Nunes
 
 ## Descrição
 
-Este projeto tem como objetivo simular um sistema onde clientes podem chegar e ser atendidos por um único servidor. Por exemplo, o sistema pode ser um lava-jato onde os carros chegam no sistema, esperam por um tempo na fila até serem atendidos pelo atendente.
+Este projeto tem como objetivo simular um sistema onde clientes podem chegar e ser atendidos por um dos vários servidores disponíveis. Por exemplo, o sistema pode ser um lava-jato onde os carros chegam no sistema, esperam por um tempo na fila até serem atendidos por um dos atendentes.
 
 A simulação é útil para que possamos coletar dados como por exemplo:
 
 - número médio de clientes na fila durante o tempo da simulação
 - tempo médio de um cliente no sistema
 - tempo médio de um cliente na fila
-- tempo médio no qual o servidor demora para atender o cliente
+- tempo médio no qual os servidores demoram para atender o cliente
 
-Os tempos com os quais os clientes chegam no sistema e o tempo que o servidor leva para atender um cliente são definidos de forma aleatória através do arquivo de config (ver detalhes nos itens abaixo).
+Os tempos com os quais os clientes chegam no sistema e o tempo que um servidor leva para atender um cliente são definidos de forma aleatória através do arquivo de config (ver detalhes nos itens abaixo).
 
 ## Dependências
 - `python3` instalado na máquina
@@ -68,6 +67,15 @@ Para executar a simulação, é necessário adicionar os parâmetros desejados n
 
 <td><code>clients</code></td>
 <td>Número de clientes na simulação</td>
+<td>
+  <code>int</code> > 0
+</td>
+</tr>
+
+</tr>
+
+<td><code>servers</code></td>
+<td>Número de servidores</td>
 <td>
   <code>int</code> > 0
 </td>
