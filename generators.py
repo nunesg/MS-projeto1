@@ -1,34 +1,66 @@
 import random
 import bisect
+from math import pi, log, sqrt, cos, sin
 
 
 class Uniform:
     def __init__(self, min_value, max_value):
         if min_value >= max_value:
-            raise Exception("Min value should be less than max value.")
+            raise Exception("Min value should be less or equal than max value.")
         self.min_value = min_value
         self.max_value = max_value
-
+        self.uniform_inverse = lambda r, a, b: a + r*(b-a)
+        
     def gen(self):
-        return self.min_value + int(random.random() * (self.max_value - self.min_value))
+        return self.uniform_inverse(random.random(), self.min_value, self.max_value)
 
+class UniformInt(Uniform):
+    def __init__(self, min_value, max_value):
+        super().__init__(int(min_value), int(max_value))
+        
+    def gen(self):
+        return int(self.gen(random.random(), self.min_value, self.max_value+1))
 
 class Deterministic:
-    def __init__(self, array):
-        self.array = array
+    def __init__(self, value):
+        self.value = value
 
     def gen(self):
-        idx = int(random.random() * len(self.array))
-        return self.array[idx]
+        return self.value
 
+class Normal:
+    def __init__(self, mean, std_deviation):
+        self.mean = mean
+        self.std_deviation = std_deviation
+        self.idx = 2
+        self.values = [0, 0]
+        self.zcos = lambda r1, r2: cos(2 * pi * r2)*sqrt(-2 * log(r1))
+        self.zsin = lambda r1, r2: sin(2 * pi * r2)*sqrt(-2 * log(r1))
+    
+    def reset_values(self):
+        self.idx = self.idx % 2
+        if self.idx != 0:
+            return
+        r1 = random.random()
+        r2 = random.random()
+        self.values = [abs(self.zcos(r1, r2)), abs(self.zsin(r1, r2))]
+    
+    def z(self):
+        self.reset_values()
+        val = self.values[self.idx]
+        self.idx += 1
+        return val
+
+    def gen(self):
+        return self.std_deviation * self.z() + self.mean
 
 class Exponential:
     def __init__(self, lamb):
         self.lamb = lamb
+        self.inverse_exponential = lambda r: -(log(1 - r)/self.lamb)
 
     def gen(self):
-        return random.expovariate(self.lamb)
-
+        return self.inverse_exponential(random.random())
 
 class MonteCarlo:
     def __init__(self, classes_array):

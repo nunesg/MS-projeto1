@@ -40,7 +40,7 @@ Para executar a simulação, é necessário adicionar os parâmetros desejados n
 <td><code>tec_type</code></td>
 <td>Tipo de aleatoriedade usada para gerar o tempo entre as chegadas</td>
 <td>
-  <code>uniform</code>, <code>deterministic</code>, <code>exp</code>, <code>mmc</code>
+  <code>uniform</code>, <code>uniform_int</code>, <code>deterministic</code>, <code>normal</code>, <code>exp</code>, <code>mmc</code>
 </td>
 </tr>
 
@@ -54,7 +54,7 @@ Para executar a simulação, é necessário adicionar os parâmetros desejados n
 <td><code>ts_type</code></td>
 <td>Tipo de aleatoriedade usada para gerar o tempo de serviço</td>
 <td>
-  <code>uniform</code>, <code>deterministic</code>, <code>exp</code>, <code>mmc</code>
+  <code>uniform</code>, <code>uniform_int</code>, <code>deterministic</code>, <code>normal</code>, <code>exp</code>, <code>mmc</code>
 </td>
 </tr>
 
@@ -105,8 +105,16 @@ Os parâmetros que adicionam aleatoriedade à simulação são os parâmetros TE
 <td>Distribuição uniforme em um intervalo</td>
 </tr>
 
+<td><code>uniform_int</code></td>
+<td>Distribuição uniforme de inteiros em um intervalo</td>
+</tr>
+
 <td><code>deterministic</code></td>
-<td>Valores determinísticos</td>
+<td>Valor determinístico</td>
+</tr>
+
+<td><code>normal</code></td>
+<td>Distribuição normal</td>
 </tr>
 
 <td><code>exp</code></td>
@@ -144,12 +152,36 @@ Os campos `tec` e `ts` armazenam os parâmetros necessários dependendo do tipo 
 </pre></code>
 </td></tr>
 
+<td><code>uniform_int</code></td>
+<td style="width: 55%">Intervalo de valores possíveis</td>
+<td><code>
+<pre>
+"ts_type": "uniform_int",
+"ts": {
+  "min_value": 1, 
+  "max_value": 10
+}
+</pre></code>
+</td></tr>
+
 <td><code>deterministic</code></td>
-<td style="width: 55%">Array com os possíveis valores</td>
+<td style="width: 55%">Valor a ser retornado</td>
 <td><code>
 <pre>
 "ts_type": "deterministic",
-"ts": [3, 2, 5]
+"ts": 3
+</pre></code>
+</td></tr>
+
+<td><code>normal</code></td>
+<td style="width: 55%">Média e desvio padrão da distribuição normal. </td>
+<td><code>
+<pre>
+"ts_type": "normal",
+"ts": {
+  "mean": 0.5,
+  "std_deviation": 1.0
+}
 </pre></code>
 </td></tr>
 

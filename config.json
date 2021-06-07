@@ -16,12 +16,11 @@
       "frequency": 1
     }
   ],
-  "ts_type": "deterministic",
-  "ts": [
-    3,
-    6,
-    9
-  ],
+  "ts_type": "normal",
+  "ts": {
+    "mean": 2,
+    "std_deviation": 0.5
+  },
   "clients": 15,
   "servers": 2,
   "max_queue_size": 4
