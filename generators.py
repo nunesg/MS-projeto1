@@ -1,5 +1,6 @@
 import random
 import bisect
+import montecarlo
 from math import pi, log, sqrt, cos, sin
 
 
@@ -63,11 +64,10 @@ class Exponential:
         return self.inverse_exponential(random.random())
 
 class MonteCarlo:
-    def __init__(self, classes_array):
-        self.values = [
-            (elem['class']['min_value'] + elem['class']['max_value'])/2.0
-            for elem in classes_array
-        ]
+    def __init__(self, values):
+        classes_array = montecarlo.parse(values)
+        # print(classes_array)
+        self.values = [elem['class'] for elem in classes_array]
         self.normalize_frequencies(classes_array)
         self.build_accumulated_probs(classes_array)
 

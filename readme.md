@@ -23,6 +23,8 @@ Os tempos com os quais os clientes chegam no sistema e o tempo que um servidor l
   - `pip3 install tabulate`
 - pacote **bisect**
   - `pip3 install bisect`
+- pacote **matplotlib**
+  - `pip3 install matplotlib`
 
 ## Setup arquivo de config
 

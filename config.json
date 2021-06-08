@@ -1,20 +1,10 @@
 {
   "tec_type": "mmc",
   "tec": [
-    {
-      "class": {
-        "min_value": 0,
-        "max_value": 2
-      },
-      "frequency": 1
-    },
-    {
-      "class": {
-        "min_value": 3,
-        "max_value": 5
-      },
-      "frequency": 1
-    }
+    1,
+    1,
+    2,
+    4
   ],
   "ts_type": "normal",
   "ts": {
