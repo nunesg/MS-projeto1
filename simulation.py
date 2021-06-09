@@ -3,6 +3,7 @@
 from server import Server
 from client import ClientSummary, DroppedClientSummary
 
+
 class Simulation:
     def __init__(self, arrival_time_gen, service_time_gen, statistics_manager,
                  max_queue_size=float('inf'), nclients=15, nservers=2):
@@ -63,14 +64,14 @@ class Simulation:
             "id": id,
             "arrival_time": arrival_time
         }))
-    
+
     def get_next_free_server(self):
         best = 0
         nservers = len(self.servers)
         for i in range(nservers):
             if self.servers[i]['server'].get_free_time() < self.servers[best]['server'].get_free_time():
-                best = i;
-        return self.servers[best];
+                best = i
+        return self.servers[best]
 
     def get_last_arrival_time(self):
         if self.statistics_manager.clients_size() > 0:

@@ -14,6 +14,6 @@ class Server:
             raise Exception("Can't start while server is still working!")
         self.wasted_time += start - self.next_free_time
         self.next_free_time = start + time
-    
+
     def finish(self, time):
         self.wasted_time += max(0, time - self.next_free_time)
