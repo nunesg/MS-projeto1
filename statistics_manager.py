@@ -1,4 +1,5 @@
 import tabulate
+import matplotlib.pyplot as plt
 
 
 class StatisticsManager:
@@ -13,6 +14,7 @@ class StatisticsManager:
         self.total_queue_time = 0
         self.total_service_time = 0
         self.total_time = 0
+        self.max_queue_size = 0
 
     def add_client(self, client):
         self.nclients += 1
@@ -52,7 +54,7 @@ class StatisticsManager:
         print("===== Statistics considering the served clients =====\n")
 
         # a)
-        print("Avg number of entities on the queue: {:.2f}".format(
+        print("Avg queue size: {:.2f}".format(
             self.get_average_queue_size()
         ))
 
@@ -96,6 +98,7 @@ class StatisticsManager:
             weighted_sum += qsize * (t - last_t)
             # if checked then the client is leaving the queue
             qsize += -1 if checked[client_id] else 1
+            self.max_queue_size = max(self.max_queue_size, qsize)
             checked[client_id] = not checked[client_id]
             last_t = t
         return weighted_sum/self.total_time
@@ -112,4 +115,44 @@ class StatisticsManager:
         print()
 
     def plot_figures(self):
-        print("plot figures!")
+        fig = plt.figure(figsize=[10, 8], constrained_layout=True)
+        arrival_time_axe = fig.add_subplot(2, 2, 1)
+        service_time_axe = fig.add_subplot(2, 2, 2)
+        queue_size_axe = fig.add_subplot(2, 2, 3)
+        info_axe = fig.add_subplot(2, 2, 4)
+
+        arrival_time_axe.hist(self.arrival_times)
+        arrival_time_axe.set_title('Time between arrivals histogram')
+        arrival_time_axe.set_xlabel('time')
+        arrival_time_axe.set_ylabel('frequency')
+
+        service_time_axe.hist(self.service_times)
+        service_time_axe.set_title('Service time histogram')
+        service_time_axe.set_xlabel('time')
+        service_time_axe.set_ylabel('frequency')
+
+        clients = [i for i in range(self.nclients)]
+        queue_size_axe.plot(clients, self.average_queue_sizes)
+        queue_size_axe.set_title('Average queue size')
+        queue_size_axe.set_xlabel('client id')
+        queue_size_axe.set_ylabel('avg queue size')
+
+        info_data = [
+            [self.nclients + self.ndclients],
+            [self.ndclients],
+            [self.max_queue_size],
+            [round(self.clients_summary[-1].finish_service_time)]
+        ]
+        row_labels = [
+            "Total number of clients",
+            "Dropped clients",
+            "Max queue size reached",
+            "Total time"
+        ]
+        info_axe.axis('off')
+        info_axe.table(info_data, rowLabels=row_labels,
+                       loc='upper center', cellLoc='center', colWidths=[0.25])
+        info_axe.set_title("General info")
+
+        plt.show()
+        return

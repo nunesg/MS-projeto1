@@ -3,24 +3,14 @@ import math
 import matplotlib.pyplot as plt
 
 
-def plot_histogram(data):
-    x = data
-    plt.hist(x)
-    plt.xlabel('value')
-    plt.ylabel('frequency')
-    plt.title('Monte Carlo data histogram')
-    plt.show()
-
-
 def parse(data):
-    # plot_histogram(data)
     data.sort()
     n = len(data)
     min_value, max_value = data[0], data[-1]
     K = round(1 + 3.3*math.log10(n))
     class_len = (max_value - min_value)/K
 
-    print(f"K: {K}, class_len: {class_len}")
+    # print(f"K: {K}, class_len: {class_len}")
     classes_array = [
         {
             "class": i*class_len + class_len/2.0,

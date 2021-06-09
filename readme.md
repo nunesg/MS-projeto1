@@ -199,30 +199,13 @@ Os campos `tec` e `ts` armazenam os parâmetros necessários dependendo do tipo 
 </td></tr>
 
 <td><code>mmc</code></td>
-<td style="width: 55%">Array de objetos. Cada objeto vai ter um campo "class" indicando a sua classe com o intervalo representado, e a sua frequência desejada em relação aos outros objetos (ou seja, a sua probabilidade). No exemplo ao lado, o primeiro objeto irá aparecer 3x mais que o segundo.
-
-As frequências também podem assumir valores de probabilidade. por exemplo, ao invés de frequências 3 e 1, poderiam assumir suas probabilidades direto: 0.75 e 0.25 respectivamente.
+<td style="width: 55%">Amostra de dados cuja distribuição irá ser aplicada na simulação utilizando o método de monte carlo.
 
 </td>
 <td><code>
 <pre>
 "tec_type": "mmc",
-"tec": [
-  {
-    "class": {
-      "min_value": 0, 
-      "max_value": 5
-    },
-    "frequency": 3
-  },
-  {
-    "class": {
-      "min_value": 5, 
-      "max_value": 10
-    },
-    "frequency": 1
-  }
-]
+"tec": [1, 1, 1, 2, 2, 3]
 </pre></code>
 </td></tr>
 
@@ -233,7 +216,8 @@ As frequências também podem assumir valores de probabilidade. por exemplo, ao 
 ### Ambiente Linux
 
 - No terminal, executar: `python3 main.py`
-![Alt text](images/linux_screenshot.png?raw=true "Exemplo de execução no ambiente Google Colab")
+![Alt text](images/linux_screenshot.png?raw=true "Exemplo de execução no ambiente Linux")
+![Alt text](images/plot_example.png?raw=true "Exemplo de execução no ambiente Linux")
 
 ### Google Colab
 

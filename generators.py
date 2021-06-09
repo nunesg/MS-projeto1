@@ -48,7 +48,7 @@ class Normal:
             return
         r1 = random.random()
         r2 = random.random()
-        self.values = [abs(self.zcos(r1, r2)), abs(self.zsin(r1, r2))]
+        self.values = [self.zcos(r1, r2), self.zsin(r1, r2)]
 
     def z(self):
         self.reset_values()
@@ -57,7 +57,7 @@ class Normal:
         return val
 
     def gen(self):
-        return self.std_deviation * self.z() + self.mean
+        return abs(self.std_deviation * self.z() + self.mean)
 
 
 class Exponential:
