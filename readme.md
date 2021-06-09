@@ -223,6 +223,6 @@ Os campos `tec` e `ts` armazenam os parâmetros necessários dependendo do tipo 
 
 1) Criar um novo `notebook` no Google Colab
 2) Copiar os arquivos do projeto para a pasta `arquivos` na `aba à esquerda`
-3) Executar o comando `!python3 main.py` em alguma célula de execução
+3) Executar o comando `%run main.py` em alguma célula de execução
 
 ![Alt text](images/colab_screenshot.png?raw=true "Exemplo de execução no ambiente Google Colab")
