@@ -1,4 +1,5 @@
 from simulation import Simulation
+from statistics_manager import StatisticsManager
 import generators
 import json
 
@@ -28,6 +29,7 @@ def main():
     simulation = Simulation(
         arrival_time_gen=tec_generator,
         service_time_gen=ts_generator,
+        statistics_manager=StatisticsManager(),
         max_queue_size=config.get('max_queue_size', float('inf')),
         nclients=config['clients'],
         nservers=config['servers']
